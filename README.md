@@ -81,7 +81,7 @@ Una lista de tareas para realizar y subir a Git:
 
 * **P2024-012:** Expresiones Lambda.
 	En el código de la aplicación donde se pueda sustituir código antiguo por expresiones Lambda sin que se pierdan funcionalidades en la aplicación.
-lambdas
+
 
 
 
