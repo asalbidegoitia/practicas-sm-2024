@@ -66,10 +66,22 @@ Una lista de tareas para realizar y subir a Git:
 	En la jsp principal crear un botón para adjuntar archivos.
 	Guardar los archivos en base de datos como BLOB. Crear una nueva tabla para guardar el BLOB y que tenga tambien un id.
 
-* **P2024-008:** Descargar archivos.
+* **P2024-009:** Descargar archivos.
 	En la jsp principal crear un botón para descargar archivos adjuntados.
 	Recoger el BLOB de BD y descargarlo.
 
+* **P2024-010:** Meter un login con usuarios.
+	Crear una jsp de login a la que la aplicación vaya por defecto al arrancar.
+	Crear una tabla en BD para usuarios y meteros a vosotros como usuarios en BD.
+	Crear tambien un logout. 
+
+* **P2024-011:** Recuperación de contraseña.
+	Crear una función de recuperar contraseña que te mande al email un correo para hacer un cambio de password.
+	Buscar como mediante la api de chatgpt generar contraseñas seguras.
+
+* **P2024-012:** Expresiones Lambda.
+	En el código de la aplicación donde se pueda sustituir código antiguo por expresiones Lambda sin que se pierdan funcionalidades en la aplicación.
+lambdas
 
 
 
