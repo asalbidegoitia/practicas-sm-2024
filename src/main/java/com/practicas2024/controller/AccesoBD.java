@@ -22,7 +22,7 @@ public class AccesoBD {
 	 */
 	public AccesoBD() throws ExcepcionModulo2 {
 		try {
-			Class.forName("com.mysql.cj.jdbc.Driver2");
+			Class.forName("com.mysql.cj.jdbc.Driver");
 			
 		}catch(Exception ex) {
 			
