@@ -24,17 +24,6 @@ public class CollegeController {
 	public @ResponseBody
 	JsonObject getLocalityDetailsByZipCode(String countryName,String name) throws IOException { 
 
-		// Prueba de conexión
-		try {
-			AccesoBD a = new AccesoBD();
-			a.test();
-			
-		} catch (ExcepcionModulo2 e) {
-			System.out.println(e.toString());
-		}
-		
-		
-		
 		JsonArray jsonArray = new JsonArray(); 
 		jsonArray = getCollegeDetailsByParams(countryName,name); 
 		JsonObject finalJsonObject = new JsonObject(); 
@@ -59,7 +48,7 @@ public class CollegeController {
 		finalJsonObject.addProperty("associatedcolleges", collegeList.toString()); 
 		finalJsonObject.addProperty("associatedcollegesize", collegeList.size()); 
 		finalJsonObject.addProperty("state", stateList.toString()); 
-		finalJsonObject.addProperty("statename", stateList.get(0).toString()); 
+		//finalJsonObject.addProperty("statename", stateList.get(0).toString()); 
 		finalJsonObject.addProperty("associatedwebpages", webPageList.toString()); 
 		finalJsonObject.addProperty("associatedwebpagesize", webPageList.size()); 
 
