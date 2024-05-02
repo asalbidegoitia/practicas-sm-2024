@@ -78,7 +78,7 @@ public class AccesoBD {
 		public ExcepcionModulo2() {}
 		
 		/**
-		 * Constructor completo
+		 * Constructor completo 
 		 * @param mensajePersonalizado Mensaje personalizado para el usuario
 		 * @param mensajeError Mensaje de error que lanza la escepción
 		 * @param codigoError Codigo de error en caso de que exista
