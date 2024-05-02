@@ -14,7 +14,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.google.gson.Gson; 
 import com.google.gson.JsonArray; 
 import com.google.gson.JsonElement; 
-import com.google.gson.JsonObject; 
+import com.google.gson.JsonObject;
+import com.practicas2024.controller.AccesoBD.ExcepcionModulo2; 
 
 @Controller
 public class CollegeController { 
@@ -23,6 +24,17 @@ public class CollegeController {
 	public @ResponseBody
 	JsonObject getLocalityDetailsByZipCode(String countryName,String name) throws IOException { 
 
+		// Prueba de conexión
+		try {
+			AccesoBD a = new AccesoBD();
+			a.test();
+			
+		} catch (ExcepcionModulo2 e) {
+			System.out.println(e.toString());
+		}
+		
+		
+		
 		JsonArray jsonArray = new JsonArray(); 
 		jsonArray = getCollegeDetailsByParams(countryName,name); 
 		JsonObject finalJsonObject = new JsonObject(); 
@@ -82,6 +94,7 @@ public class CollegeController {
 			jsonArray = new Gson().fromJson(responseData.toString(), JsonArray.class); 
 			
 		} 
+		
 		return jsonArray; 
 	} 
 }
