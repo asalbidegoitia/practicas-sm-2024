@@ -47,7 +47,7 @@ public class AccesoBD {
 		ArrayList<DatosUniversidad> universidades;
 		try {
 			Connection conn = DriverManager.getConnection("jdbc:mysql://" + HOST + ":" + PORT + "/" + DB_NAME + "?useSSL=true", USER, PASSWD) ;
-			Statement stmt = conn.createStatement() ;
+			Statement stmt = conn.createStatement();
 			String query = "select * from universidades;";
 			ResultSet rs = stmt.executeQuery(query) ;
 			
