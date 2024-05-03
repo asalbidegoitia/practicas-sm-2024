@@ -107,6 +107,7 @@
 		} 
 	} 
 </script> 
+
 <script> 
 	function saveCollege() { 
 		document.getElementById("profile-area").classList.remove("hideElement"); 
