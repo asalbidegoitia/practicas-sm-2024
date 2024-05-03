@@ -27,41 +27,56 @@ public class CollegeController {
 		// Prueba de conexión
 		try {
 			AccesoBD a = new AccesoBD();
-			a.test();
+			System.out.println(a.leerUniversidades());
 			
 		} catch (ExcepcionModulo2 e) {
 			System.out.println(e.toString());
 		}
 		
-		
-		
-		JsonArray jsonArray = new JsonArray(); 
-		jsonArray = getCollegeDetailsByParams(countryName,name); 
-		JsonObject finalJsonObject = new JsonObject(); 
-		// String country = jsonObject.get("country").toString(); 
-		// country = country.replaceAll("^\"|\"$", ""); 
-		ArrayList collegeList = new ArrayList(); 
-		ArrayList stateList = new ArrayList(); 
-		ArrayList webPageList = new ArrayList(); 
-		// ArrayList longitudeList = new ArrayList(); 
-		// jsonPlacesArray = jsonObject.get("places").getAsJsonArray(); 
-		Iterator<JsonElement> objectIterator = jsonArray.iterator(); 
-		
-		while(objectIterator.hasNext()) { 
-			JsonElement object = objectIterator.next(); 
-			JsonObject jObj = object.getAsJsonObject(); 
-			// System.out.println(jObj.get("place name").toString() + jObj.get("state").toString() ); 
-			collegeList.add(jObj.get("name").toString().replaceAll("^\"|\"$", "")); 
-			stateList.add(jObj.get("state-province").toString().replaceAll("^\"|\"$", "")); 
-			webPageList.add(jObj.get("web_pages").toString().replaceAll("^\"|\"$", "")); 
-		} 
-		// finalJsonObject.addProperty("country", country); 
-		finalJsonObject.addProperty("associatedcolleges", collegeList.toString()); 
-		finalJsonObject.addProperty("associatedcollegesize", collegeList.size()); 
-		finalJsonObject.addProperty("state", stateList.toString()); 
-		finalJsonObject.addProperty("statename", stateList.get(0).toString()); 
-		finalJsonObject.addProperty("associatedwebpages", webPageList.toString()); 
-		finalJsonObject.addProperty("associatedwebpagesize", webPageList.size()); 
+		/*
+		 * Se captura la escepción en caso de que ocurra para poder mostrarlo en el panel
+		 * Ejercicio 02 (Hugo Vélez)
+		 */
+		JsonObject finalJsonObject = new JsonObject();
+		try {
+			
+			JsonArray jsonArray = new JsonArray(); 
+			jsonArray = getCollegeDetailsByParams(countryName,name);  
+			// String country = jsonObject.get("country").toString(); 
+			// country = country.replaceAll("^\"|\"$", ""); 
+			ArrayList collegeList = new ArrayList(); 
+			ArrayList stateList = new ArrayList(); 
+			ArrayList webPageList = new ArrayList(); 
+			// ArrayList longitudeList = new ArrayList(); 
+			// jsonPlacesArray = jsonObject.get("places").getAsJsonArray(); 
+			Iterator<JsonElement> objectIterator = jsonArray.iterator(); 
+			
+			while(objectIterator.hasNext()) { 
+				JsonElement object = objectIterator.next(); 
+				JsonObject jObj = object.getAsJsonObject(); 
+				// System.out.println(jObj.get("place name").toString() + jObj.get("state").toString() ); 
+				collegeList.add(jObj.get("name").toString().replaceAll("^\"|\"$", "")); 
+				stateList.add(jObj.get("state-province").toString().replaceAll("^\"|\"$", "")); 
+				webPageList.add(jObj.get("web_pages").toString().replaceAll("^\"|\"$", "")); 
+			} 
+			// finalJsonObject.addProperty("country", country); 
+			finalJsonObject.addProperty("associatedcolleges", collegeList.toString()); 
+			finalJsonObject.addProperty("associatedcollegesize", collegeList.size()); 
+			finalJsonObject.addProperty("state", stateList.toString()); 
+			finalJsonObject.addProperty("statename", stateList.get(0).toString()); 
+			finalJsonObject.addProperty("associatedwebpages", webPageList.toString()); 
+			finalJsonObject.addProperty("associatedwebpagesize", webPageList.size()); 
+			
+		}catch(IndexOutOfBoundsException ex) {
+			// Se captura la excepcion que se genera y se añade a las propiedades del objeto para poder mostrarlo en la pagina
+			JsonObject jso = obtenerError("No se han encontrado datos que coincidan con la busqueda", finalJsonObject);
+			finalJsonObject = jso;
+		}
+		catch(Exception ex) {
+			// Se captura la excepcion que se genera y se añade a las propiedades del objeto para poder mostrarlo en la pagina
+			JsonObject jso = obtenerError(ex, finalJsonObject);
+			finalJsonObject = jso;
+		}
 
 		return finalJsonObject; 
 	} 
@@ -97,4 +112,30 @@ public class CollegeController {
 		
 		return jsonArray; 
 	} 
+	
+	/**
+	 * Se añade una propiedad al JSON para posteriormente mostrarlo el pa pagina web
+	 * Ejercicio 02 (Hugo Vélez)
+	 * 
+	 * @param ex Excepción que se ha producido
+	 * @param jso Objeto JSON que almacena las propiedades a mostrar
+	 * @return Objeto JSON con la nueva propiedad añadida
+	 */
+	private JsonObject obtenerError(Exception ex, JsonObject jso) {
+		jso.addProperty("parrafoErrores", ex.getMessage());
+		return jso;
+	}
+	
+	/**
+	 * Se añade una propiedad al JSON para posteriormente mostrarlo el pa pagina web
+	 * Ejercicio 02 (Hugo Vélez)
+	 * 
+	 * @param mensaje Mensaje a mostrar
+	 * @param jso Objeto JSON que almacena las propiedades a mostrar
+	 * @return Objeto JSON con la nueva propiedad añadida
+	 */
+	private JsonObject obtenerError(String mensaje, JsonObject jso) {
+		jso.addProperty("parrafoErrores", mensaje);
+		return jso;
+	}
 }

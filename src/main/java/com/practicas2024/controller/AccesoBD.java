@@ -1,9 +1,11 @@
 package com.practicas2024.controller;
 
+import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.Date;
 
 /**
@@ -23,7 +25,7 @@ public class AccesoBD {
 	 */
 	public AccesoBD() throws ExcepcionModulo2 {
 		try {
-			Class.forName("com.mysql.cj.jdbc.Driver2");
+			Class.forName("com.mysql.cj.jdbc.Driver");
 			
 		}catch(Exception ex) {
 			
@@ -33,6 +35,49 @@ public class AccesoBD {
 			e.setMetodoError("Constructor de la clase AccesoBD");
 			throw e;
 		}
+	}
+	
+	/**
+	 * Lee los datos de toda la tabla
+	 * @return Lista con los datos de las universidades
+	 * @throws ExcepcionModulo2
+	 */
+	public ArrayList<DatosUniversidad> leerUniversidades() throws ExcepcionModulo2{
+		
+		ArrayList<DatosUniversidad> universidades;
+		try {
+			Connection conn = DriverManager.getConnection("jdbc:mysql://" + HOST + ":" + PORT + "/" + DB_NAME + "?useSSL=true", USER, PASSWD) ;
+			Statement stmt = conn.createStatement() ;
+			String query = "select * from universidades;" ;
+			ResultSet rs = stmt.executeQuery(query) ;
+			
+			universidades = new ArrayList<AccesoBD.DatosUniversidad>();
+			
+			int i = 1;
+			while(rs.next()) {
+				
+				DatosUniversidad universidad = new DatosUniversidad();
+				universidad.setUid( ((BigDecimal) rs.getObject("uid")).intValue() );
+				universidad.setNombre(rs.getString("nombre"));
+				universidad.setPaginaWeb(rs.getString("pagina_web"));
+				universidad.setPais(rs.getString("pais"));
+				universidad.setProvinciaEstado(rs.getString("provincia_estado"));
+				universidad.setFechaGuardado(rs.getDate("fecha_guardado"));
+				universidades.add(universidad);
+				
+				i++;
+			}
+			
+		}catch (Exception ex) {
+			
+			ExcepcionModulo2 e = new ExcepcionModulo2();
+			e.setMensajePersonalizado("Ha surgido un error inesperado");
+			e.setMensajeError(ex.getMessage());
+			e.setMetodoError("leerUniversidades()");
+			throw e;
+		}
+		
+		return universidades;
 	}
 	
 	/**

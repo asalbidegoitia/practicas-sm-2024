@@ -45,7 +45,16 @@
 		} 
 		.hideElement { 
 			display: none; 
-		} 
+		}
+		
+		/*
+			CSS personalizado
+			Ejercicio 02 (Hugo Vélez)
+		*/ 
+		.estiloDivError {
+			border: solid 1px red;
+			color: red;
+		}
 	</style> 
 </head> 
 <body> 
@@ -72,20 +81,45 @@
 		<div id="profile" class="hideElement"> 
 			<br><br> 
 			
-<p><strong>Colleges : </strong><span id="associatedcolleges"></span></p> 
-
+			<p><strong>Colleges : </strong><span id="associatedcolleges"></span></p> 
 			
-<p><strong>Webpages : </strong><span id="associatedwebpages"></span></p> 
+						
+			<p><strong>Webpages : </strong><span id="associatedwebpages"></span></p> 
 
 		</div> 
 	</section> 
 </div> 
+
+<!-- 
+	Parrafo para mostrar errores  
+	Ejercicio 02 (Hugo Vélez)
+-->
+<div class="profile-area hideElement" id="profile-area-error"> 
+	<section class="estiloDivError"> 
+		<div id="loader-error" class="hideElement"> 
+			<div class="spinner-border" role="status"> 
+				<span class="sr-only">Loading...</span> 
+			</div> 
+		</div> 
+		<div id="profile-error"> 
+			<br><br> 
+		
+			<p id="parrafoErrores"><strong>Error : </strong><span id="mensajeerror"></span></p> 
+
+		</div> 
+	</section> 
+</div> 
+
 </body> 
 <script> 
 	function loadData() { 
 		document.getElementById("profile-area").classList.remove("hideElement"); 
 		document.getElementById("loader").classList.remove("hideElement"); 
-		document.getElementById("profile").classList.add("hideElement"); 
+		document.getElementById("profile").classList.add("hideElement");
+		
+		// Ocultar div
+		// Ejercicio 02 (Hugo Vélez)
+		document.getElementById("profile-area-error").classList.add("hideElement"); 
 
 		var searchString = document.getElementById("searchString").value; 
 		var countryName = document.getElementById("countryName").value; 
@@ -98,7 +132,14 @@
 					document.getElementById("associatedcolleges").innerHTML = jsonResponse.associatedcolleges; 
 					document.getElementById("associatedwebpages").innerHTML = jsonResponse.associatedwebpages; 
 					document.getElementById("loader").classList.add("hideElement"); 
-					document.getElementById("profile").classList.remove("hideElement"); 
+					document.getElementById("profile").classList.remove("hideElement");
+					
+					// Mostrar errores
+					// Ejercicio 02 (Hugo Vélez)
+					if(jsonResponse.parrafoErrores != null){
+						document.getElementById("profile-area-error").classList.remove("hideElement"); 
+						document.getElementById("mensajeerror").innerHTML = jsonResponse.parrafoErrores;
+					}
 				} 
 			}; 
 			xhttp.open("GET", "getCollegeDetailsBycountryNameAndSearchString?countryName="+ countryName + "&name=" + searchString, true); 
