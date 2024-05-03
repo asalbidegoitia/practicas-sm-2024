@@ -44,7 +44,7 @@ public class AccesoBD {
 			Connection conn = DriverManager.getConnection("jdbc:mysql://" + HOST + ":" + PORT + "/" + DB_NAME + "?useSSL=true", USER, PASSWD) ;
 			Statement stmt = conn.createStatement() ;
 			String query = "show tables;" ;
-			ResultSet rs = stmt.executeQuery(query) ;
+			ResultSet rs = stmt.executeQuery(query);
 			
 			int i = 1;
 			while(rs.next()) {
