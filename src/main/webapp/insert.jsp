@@ -4,7 +4,7 @@
     <meta charset="utf-8"> 
     <meta http-equiv="X-UA-Compatible" content="IE=edge"> 
     <meta name="viewport" content="width=device-width, initial-scale=1"> 
-    <title>Colleges</title> 
+    <title>Insertar</title> 
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"> 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script> 
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script> 
@@ -48,8 +48,9 @@
         } 
     </style> 
 </head> 
-<body> 
+<body>
     <!-- Barra de Navegación -->
+    
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <a class="navbar-brand" href="index.jsp">Inicio</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -57,51 +58,18 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav">
-            
-                <li class="nav-item">
+                <li class="nav-item active">
                     <a class="nav-link" href="insert.jsp">Introducir</a>
                 </li>
-                <li class="nav-item active">
+                <li class="nav-item">
                     <a class="nav-link" href="index.jsp">Consultar</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link disabled" href="#">Disabled</a>
+                    <a class="nav-link disabled" href="index.jsp">Disabled</a>
                 </li>
             </ul>
         </div>
     </nav>
-
-    <div class="main-form" id="main-form"> 
-        <section> 
-            <div class="form-group"> 
-                <input id="searchString" type="text" class="form-control" placeholder="Enter college search name here..." required="required"> 
-            </div> 
-            <div class="form-group"> 
-                <input id="countryName" type="text" class="form-control" placeholder="Enter country name here..." required="required"> 
-            </div> 
-            <div class="form-group"> 
-                <button onclick="loadData()" class="btn btn-primary btn-block">Find College Details</button> 
-            </div> 
-        </section> 
-    </div> 
-    <div class="profile-area hideElement" id="profile-area"> 
-        <section> 
-            <div id="loader" class="hideElement"> 
-                <div class="spinner-border" role="status"> 
-                    <span class="sr-only">Loading...</span> 
-                </div> 
-            </div> 
-            <div id="profile" class="hideElement"> 
-                <br><br> 
-
-                <p><strong>Colleges : </strong><span id="associatedcolleges"></span></p> 
-		
-
-                <p><strong>Webpages : </strong><span id="associatedwebpages"></span></p> 
-
-            </div> 
-        </section> 
-    </div> 
 </body> 
 <script> 
     function loadData() { 

@@ -1,0 +1,6 @@
+/target/
+/bin/
+/apache-tomcat-9.0.62/
+/.classpath
+/.project
+/.settings/
