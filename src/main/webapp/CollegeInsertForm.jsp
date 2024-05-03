@@ -52,57 +52,54 @@
 <div class="main-form" id="main-form"> 
 	<section> 
 		<div class="form-group"> 
-			<input id="searchString" type="text" class="form-control" placeholder="Enter college search name here..." required="required"> 
+			<input id="collegeName" type="text" class="form-control" placeholder="Enter college name" required="required"> 
 		</div> 
 		<div class="form-group"> 
-			<input id="countryName" type="text" class="form-control" placeholder="Enter country name here..." required="required"> 
+			<input id="countryName" type="text" class="form-control" placeholder="Enter country name" required="required"> 
 		</div> 
 		<div class="form-group"> 
-			<button onclick="loadData()" class="btn btn-primary btn-block">Find College Details</button> 
+			<input id="provinceName" type="text" class="form-control" placeholder="Enter province" required="required"> 
 		</div>
-		<a href="CollegeInsertForm.jsp">College Insert Form</a>
+		<div class="form-group"> 
+			<input id="webPage" type="text" class="form-control" placeholder="Enter college web page" required="required"> 
+		</div>
+		<div class="form-group"> 
+			<button onclick="insertCollege()" class="btn btn-primary btn-block">Add College</button> 
+		</div> 
 	</section> 
 </div> 
 <div class="profile-area hideElement" id="profile-area"> 
-	<section> 
-		<div id="loader" class="hideElement"> 
-			<div class="spinner-border" role="status"> 
-				<span class="sr-only">Loading...</span> 
-			</div> 
-		</div> 
+	<section>  
 		<div id="profile" class="hideElement"> 
 			<br><br> 
-			
-<p><strong>Colleges : </strong><span id="associatedcolleges"></span></p> 
-
-			
-<p><strong>Webpages : </strong><span id="associatedwebpages"></span></p> 
+			<p><strong><span id="insertState"></span></strong></p> 
+			 
 
 		</div> 
 	</section> 
 </div> 
 </body> 
 <script> 
-	function loadData() { 
+	function insertCollege() { 
 		document.getElementById("profile-area").classList.remove("hideElement"); 
-		document.getElementById("loader").classList.remove("hideElement"); 
 		document.getElementById("profile").classList.add("hideElement"); 
 
-		var searchString = document.getElementById("searchString").value; 
-		var countryName = document.getElementById("countryName").value; 
-
-		if((searchString != "" && searchString != null) || (countryName != "" && countryName != null)) { 
+		var collegeName = document.getElementById("collegeName").value; 
+		var countryName = document.getElementById("countryName").value;
+		var provinceName = document.getElementById("provinceName").value; 
+		var webPage = document.getElementById("webPage").value;
+		
+		if((collegeName != "" && collegeName != null) && (countryName != "" && countryName != null)){ 
 			var xhttp = new XMLHttpRequest(); 
 			xhttp.onreadystatechange = function() { 
 				if (this.readyState == 4 && this.status == 200) { 
 					var jsonResponse = JSON.parse(this.responseText); 
-					document.getElementById("associatedcolleges").innerHTML = jsonResponse.associatedcolleges; 
-					document.getElementById("associatedwebpages").innerHTML = jsonResponse.associatedwebpages; 
-					document.getElementById("loader").classList.add("hideElement"); 
+					document.getElementById("insertState").innerHTML = jsonResponse.insertState; 
 					document.getElementById("profile").classList.remove("hideElement"); 
 				} 
 			}; 
-			xhttp.open("GET", "getCollegeDetailsBycountryNameAndSearchString?countryName="+ countryName + "&name=" + searchString, true); 
+			xhttp.open("POST", "insertCollegeDetails?countryName="+ countryName + "&collegeName=" + collegeName +
+					"&provinceName=" + provinceName + "&webPage=" + webPage, true); 
 			xhttp.send(); 
 			console.log("done"); 
 		} else { 
