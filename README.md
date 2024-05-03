@@ -24,7 +24,7 @@ http://localhost:8080/Practicas2024/index.jsp
 <p>Los mensajes de los commit que se hagan deben empezar por el código de la tarea (P2024-XXX) seguidos de lo que se haya hecho en ese commit. </p>
 	<p>Por ejemplo: P2024-002 Mensajes de error introducidos </p>
 
-Una lista de tareas para realizar y subir a Git: 
+Una lista de tareas para realizar y subir a Git:  
 
 * Crear una BD para guardar datos de las universidades que se busquen. 
 	Guardar en la tabla para cada universidad un id unico (uid), nombre de la universidad, su página web, país, provincia/estado en el que está y la fecha en la que se guarda en BD.
