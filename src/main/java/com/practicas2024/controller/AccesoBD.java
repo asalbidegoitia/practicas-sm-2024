@@ -1,9 +1,12 @@
 package com.practicas2024.controller;
 
+import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.Date;
 
 /**
  * Clase que gestiona el acceso a los datos
@@ -22,7 +25,7 @@ public class AccesoBD {
 	 */
 	public AccesoBD() throws ExcepcionModulo2 {
 		try {
-			Class.forName("com.mysql.cj.jdbc.Driver2");
+			Class.forName("com.mysql.cj.jdbc.Driver");
 			
 		}catch(Exception ex) {
 			
@@ -32,6 +35,49 @@ public class AccesoBD {
 			e.setMetodoError("Constructor de la clase AccesoBD");
 			throw e;
 		}
+	}
+	
+	/**
+	 * Lee los datos de toda la tabla
+	 * @return Lista con los datos de las universidades
+	 * @throws ExcepcionModulo2
+	 */
+	public ArrayList<DatosUniversidad> leerUniversidades() throws ExcepcionModulo2{
+		
+		ArrayList<DatosUniversidad> universidades;
+		try {
+			Connection conn = DriverManager.getConnection("jdbc:mysql://" + HOST + ":" + PORT + "/" + DB_NAME + "?useSSL=true", USER, PASSWD) ;
+			Statement stmt = conn.createStatement() ;
+			String query = "select * from universidades;";
+			ResultSet rs = stmt.executeQuery(query) ;
+			
+			universidades = new ArrayList<AccesoBD.DatosUniversidad>();
+			
+			int i = 1;
+			while(rs.next()) {
+				
+				DatosUniversidad universidad = new DatosUniversidad();
+				universidad.setUid( ((BigDecimal) rs.getObject("uid")).intValue() );
+				universidad.setNombre(rs.getString("nombre"));
+				universidad.setPaginaWeb(rs.getString("pagina_web"));
+				universidad.setPais(rs.getString("pais"));
+				universidad.setProvinciaEstado(rs.getString("provincia_estado"));
+				universidad.setFechaGuardado(rs.getDate("fecha_guardado"));
+				universidades.add(universidad);
+				
+				i++;
+			}
+			
+		}catch (Exception ex) {
+			
+			ExcepcionModulo2 e = new ExcepcionModulo2();
+			e.setMensajePersonalizado("Ha surgido un error inesperado");
+			e.setMensajeError(ex.getMessage());
+			e.setMetodoError("leerUniversidades()");
+			throw e;
+		}
+		
+		return universidades;
 	}
 	
 	/**
@@ -59,6 +105,96 @@ public class AccesoBD {
 			e.setMensajeError(ex.getMessage());
 			e.setMetodoError("test()");
 			throw e;
+		}
+	}
+	
+	/**
+	 * Objeto que guarda todos los datos de la universidad
+	 */
+	public class DatosUniversidad {
+		
+		private Integer uid;
+		private String nombre;
+		private String paginaWeb;
+		private String pais;
+		private String provinciaEstado;
+		private java.util.Date fechaGuardado;
+		
+		/**
+		 * Constructor vacio
+		 */
+		public DatosUniversidad() {this.uid = 0;}
+
+		/**
+		 * Constructor completo de todos los parametros
+		 * @param uid
+		 * @param nombre
+		 * @param paginaWeb
+		 * @param pais
+		 * @param provinciaEstado
+		 * @param fechaGuardado
+		 */
+		public DatosUniversidad(Integer uid, String nombre, String paginaWeb, String pais, String provinciaEstado, Date fechaGuardado) {
+			this.uid = uid;
+			this.nombre = nombre;
+			this.paginaWeb = paginaWeb;
+			this.pais = pais;
+			this.provinciaEstado = provinciaEstado;
+			this.fechaGuardado = fechaGuardado;
+		}
+
+		public Integer getUid() {
+			return uid;
+		}
+
+		public void setUid(Integer uid) {
+			this.uid = uid;
+		}
+
+		public String getNombre() {
+			return nombre;
+		}
+
+		public void setNombre(String nombre) {
+			this.nombre = nombre;
+		}
+
+		public String getPaginaWeb() {
+			return paginaWeb;
+		}
+
+		public void setPaginaWeb(String paginaWeb) {
+			this.paginaWeb = paginaWeb;
+		}
+
+		public String getPais() {
+			return pais;
+		}
+
+		public void setPais(String pais) {
+			this.pais = pais;
+		}
+
+		public String getProvinciaEstado() {
+			return provinciaEstado;
+		}
+
+		public void setProvinciaEstado(String provinciaEstado) {
+			this.provinciaEstado = provinciaEstado;
+		}
+
+		public java.util.Date getFechaGuardado() {
+			return fechaGuardado;
+		}
+
+		public void setFechaGuardado(java.util.Date fechaGuardado) {
+			this.fechaGuardado = fechaGuardado;
+		}
+
+		@Override
+		public String toString() {
+			return "DatosUniversidad [uid=" + uid + ", nombre=" + nombre + ", paginaWeb=" + paginaWeb + ", pais=" + pais
+					+ ", provinciaEstado=" + provinciaEstado + ", fechaGuardado=" + fechaGuardado + "]";
 		}
 	}
 	
