@@ -25,13 +25,13 @@ public class CollegeController {
 	JsonObject getLocalityDetailsByZipCode(String countryName,String name) throws IOException { 
 
 		// Prueba de conexión
-		try {
+		/*try {
 			AccesoBD a = new AccesoBD();
 			System.out.println(a.leerUniversidades());
 			
 		} catch (ExcepcionModulo2 e) {
 			System.out.println(e.toString());
-		}
+		}*/
 		
 		/*
 		 * Se captura la escepción en caso de que ocurra para poder mostrarlo en el panel
