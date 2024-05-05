@@ -134,10 +134,10 @@ public class AccesoBD {
 					.getConnection("jdbc:mysql://" + HOST + ":" + PORT + "/" + DB_NAME + "?useSSL=true", USER, PASSWD);
 			PreparedStatement ps = con.prepareStatement(sql);
 
-			ps.setString(0, c.getName());
-			ps.setString(1, c.getWebpage());
-			ps.setString(2, c.getCountry());
-			ps.setString(3, c.getState());
+			ps.setString(1, c.getName());
+			ps.setString(2, c.getWebpage());
+			ps.setString(3, c.getCountry());
+			ps.setString(4, c.getState());
 
 			ra = ps.executeUpdate();
 			ps.close();

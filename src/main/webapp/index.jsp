@@ -155,7 +155,7 @@
 
 
 <script> 
-//Script para guardar una universidad
+//Script para leer y  guardar una universidad
 	function saveCollege() { 
 		document.getElementById("profile-area").classList.remove("hideElement"); 
 		document.getElementById("loader").classList.remove("hideElement"); 
