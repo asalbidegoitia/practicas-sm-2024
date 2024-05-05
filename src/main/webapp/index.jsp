@@ -68,6 +68,7 @@
 		</div> 
 		<div class="form-group"> 
 			<button onclick="loadData()" class="btn btn-primary btn-block">Find College Details</button> 
+			<button onclick="saveCollege()" class="btn btn-primary btn-block">Find and Save College Details</button> 
 		</div> 
 	</section> 
 </div> 
@@ -80,12 +81,13 @@
 		</div> 
 		<div id="profile" class="hideElement"> 
 			<br><br> 
-			
 			<p><strong>Colleges : </strong><span id="associatedcolleges"></span></p> 
 			
 						
 			<p><strong>Webpages : </strong><span id="associatedwebpages"></span></p> 
 
+<p><strong>Colleges : </strong><span id="associatedcolleges"></span></p> 
+<p><strong>Webpages : </strong><span id="associatedwebpages"></span></p>
 		</div> 
 	</section> 
 </div> 
@@ -143,6 +145,37 @@
 				} 
 			}; 
 			xhttp.open("GET", "getCollegeDetailsBycountryNameAndSearchString?countryName="+ countryName + "&name=" + searchString, true); 
+			xhttp.send(); 
+			console.log("done"); 
+		} else { 
+			console.log("Enter country name and search string to check...") 
+		} 
+	} 
+</script> 
+
+
+<script> 
+//Script para guardar una universidad
+	function saveCollege() { 
+		document.getElementById("profile-area").classList.remove("hideElement"); 
+		document.getElementById("loader").classList.remove("hideElement"); 
+		document.getElementById("profile").classList.add("hideElement"); 
+
+		var searchString = document.getElementById("searchString").value; 
+		var countryName = document.getElementById("countryName").value; 
+
+		if(searchString != "" && searchString != null && countryName != "" && countryName != null) { 
+			var xhttp = new XMLHttpRequest(); 
+			xhttp.onreadystatechange = function() { 
+				if (this.readyState == 4 && this.status == 200) { 
+					var jsonResponse = JSON.parse(this.responseText); 
+					document.getElementById("associatedcolleges").innerHTML = jsonResponse.associatedcolleges; 
+					document.getElementById("associatedwebpages").innerHTML = jsonResponse.associatedwebpages; 
+					document.getElementById("loader").classList.add("hideElement"); 
+					document.getElementById("profile").classList.remove("hideElement"); 
+				} 
+			}; 
+			xhttp.open("GET", "saveCollegeDetails?countryName="+ countryName + "&name=" + searchString, true); 
 			xhttp.send(); 
 			console.log("done"); 
 		} else { 
