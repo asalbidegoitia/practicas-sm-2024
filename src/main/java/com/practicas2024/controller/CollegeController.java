@@ -93,18 +93,25 @@ public class CollegeController {
 	 */
 	@RequestMapping(value = "/saveCollegeDetails", method = RequestMethod.GET)
 	public @ResponseBody JsonObject getAndSaveCollegeDetails(String countryName, String name) throws IOException {
+		// Obtener los datos
 		JsonObject json = getLocalityDetailsByZipCode(countryName, name);
-		College coll = new College(json.get("associatedcolleges").getAsString().replaceAll(countryName, name),
-				json.get("associatedwebpages").getAsString(), countryName, json.get("state").getAsString());
+		// Crear un college y eliminar caracteres [ " ] para almacenar en la base de
+		// datos
+		College coll = new College(json.get("associatedcolleges").getAsString().replaceAll("\\[|\\\"|\\]", ""),
+				json.get("associatedwebpages").getAsString().replaceAll("\\[|\\\"|\\]", ""), countryName,
+				json.get("state").getAsString().replaceAll("\\[|\\\"|\\]", ""));
 
 		try {
+			// Crear un acceso a la base de datos
 			AccesoBD abd = new AccesoBD();
+			// Insertar la universidad
 			abd.insertCollege(coll);
 
 		} catch (ExcepcionModulo2 ex) {
-			System.out.println(ex);
+
 		}
 
+		//Devolver la respuesta
 		return json;
 	}
 
