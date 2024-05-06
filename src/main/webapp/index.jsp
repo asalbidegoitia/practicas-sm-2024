@@ -69,6 +69,7 @@
 		<div class="form-group"> 
 			<button onclick="loadData()" class="btn btn-primary btn-block">Find College Details</button> 
 			<button onclick="saveCollege()" class="btn btn-primary btn-block">Find and Save College Details</button> 
+			<button onclick="mostrarUniversidades()" class="btn btn-primary btn-block">Mostrar Universidades</button>
 		</div> 
 
 		<a href="CollegeInsertForm.jsp">College Insert Form</a>
@@ -252,11 +253,5 @@ function actualizarTablaUniversidades(universidades) {
     });
 }
 
-</script>
-<script>
-    // Llamar a la función mostrarUniversidades al cargar la página
-    window.onload = function() {
-        mostrarUniversidades();
-    };
 </script>
 </html>
