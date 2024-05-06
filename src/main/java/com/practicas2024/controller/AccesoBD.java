@@ -149,6 +149,44 @@ public class AccesoBD {
 		}
 		return ra;
 	}
+	
+	/**
+	 * Adds a new college to the database.
+	 *
+	 * @param collegeName  The name of the college.
+	 * @param countryName  The name of the country where the college is located.
+	 * @param provinceName The name of the province or state where the college is located.
+	 * @param webPage      The web page URL of the college.
+	 * @return The number of rows affected (1 if successful, 0 otherwise).
+	 * @throws ExcepcionModulo2 If an unexpected error occurs during the database operation.
+	 */
+	public Integer addCollege(String collegeName,String countryName, String provinceName, String webPage) throws ExcepcionModulo2 {
+		Integer rowCount = 0;
+		
+		try {
+			Connection conn = DriverManager.getConnection("jdbc:mysql://" + HOST + ":" + PORT + "/" + DB_NAME + "?useSSL=true", USER, PASSWD);
+			Statement stmt = conn.createStatement() ;
+			String query = "INSERT INTO universidades(nombre,pagina_web,pais,provincia_estado) VALUES(?,?,?,?)";
+			PreparedStatement statement = conn.prepareStatement(query);
+			statement.setString(1, collegeName);
+			statement.setString(2, webPage);
+			statement.setString(3, countryName);
+			statement.setString(4, provinceName);
+			
+			rowCount = statement.executeUpdate();
+			
+			statement.close();
+			conn.close();
+		} catch (Exception ex) {
+			ExcepcionModulo2 e = new ExcepcionModulo2();
+			e.setMensajePersonalizado("Ha surgido un error inesperado");
+			e.setMensajeError(ex.getMessage());
+			e.setMetodoError("addCollege()");
+			throw e;
+		}
+			
+		return rowCount;
+	}
 
 	/**
 	 * Objeto que guarda todos los datos de la universidad

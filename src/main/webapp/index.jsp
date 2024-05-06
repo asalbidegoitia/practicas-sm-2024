@@ -70,6 +70,8 @@
 			<button onclick="loadData()" class="btn btn-primary btn-block">Find College Details</button> 
 			<button onclick="saveCollege()" class="btn btn-primary btn-block">Find and Save College Details</button> 
 		</div> 
+
+		<a href="CollegeInsertForm.jsp">College Insert Form</a>
 	</section> 
 </div> 
 <div class="profile-area hideElement" id="profile-area"> 
@@ -164,7 +166,7 @@
 		var searchString = document.getElementById("searchString").value; 
 		var countryName = document.getElementById("countryName").value; 
 
-		if(searchString != "" && searchString != null && countryName != "" && countryName != null) { 
+		if((searchString != "" && searchString != null) || (countryName != "" && countryName != null)) { 
 			var xhttp = new XMLHttpRequest(); 
 			xhttp.onreadystatechange = function() { 
 				if (this.readyState == 4 && this.status == 200) { 
@@ -181,6 +183,6 @@
 		} else { 
 			console.log("Enter country name and search string to check...") 
 		} 
-	} 
+	}
 </script> 
 </html>
