@@ -121,7 +121,7 @@ public class CollegeController {
 		JsonArray jsonArray = null;
 
 		name = name.replaceAll(" ", "%20");
-		countryName.replaceAll(" ", "%20");
+		countryName = countryName.replaceAll(" ", "%20");
 		
 		URL url = null;
 		url = new URL("http://universities.hipolabs.com/search?name=" + name + "&country=" + countryName);
