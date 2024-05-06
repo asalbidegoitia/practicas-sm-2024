@@ -51,43 +51,37 @@ public class AccesoBD {
 	 * @throws ExcepcionModulo2
 	 */
 	public ArrayList<DatosUniversidad> leerUniversidades() throws ExcepcionModulo2 {
+	    ArrayList<DatosUniversidad> universidades;
+	    try {
+	        Connection conn = DriverManager.getConnection("jdbc:mysql://" + HOST + ":" + PORT + "/" + DB_NAME + "?useSSL=true", USER, PASSWD);
+	        Statement stmt = conn.createStatement();
+	        String query = "select * from universidades;";
+	        ResultSet rs = stmt.executeQuery(query);
 
-		ArrayList<DatosUniversidad> universidades;
-		try {
-			Connection conn = DriverManager
-					.getConnection("jdbc:mysql://" + HOST + ":" + PORT + "/" + DB_NAME + "?useSSL=true", USER, PASSWD);
-			Statement stmt = conn.createStatement();
-			String query = "select * from universidades;";
-			ResultSet rs = stmt.executeQuery(query);
+	        universidades = new ArrayList<>();
 
-			universidades = new ArrayList<AccesoBD.DatosUniversidad>();
+	        while (rs.next()) {
+	            DatosUniversidad universidad = new DatosUniversidad();
+	            universidad.setUid(rs.getInt("uid"));
+	            universidad.setNombre(rs.getString("nombre"));
+	            universidad.setPaginaWeb(rs.getString("pagina_web"));
+	            universidad.setPais(rs.getString("pais"));
+	            universidad.setProvinciaEstado(rs.getString("provincia_estado"));
+	            universidad.setFechaGuardado(rs.getDate("fecha_guardado"));
+	            universidades.add(universidad);
+	        }
 
-			int i = 1;
-			while (rs.next()) {
+	    } catch (Exception ex) {
+	        ExcepcionModulo2 e = new ExcepcionModulo2();
+	        e.setMensajePersonalizado("Ha surgido un error inesperado");
+	        e.setMensajeError(ex.getMessage());
+	        e.setMetodoError("leerUniversidades()");
+	        throw e;
+	    }
 
-				DatosUniversidad universidad = new DatosUniversidad();
-				universidad.setUid(((BigDecimal) rs.getObject("uid")).intValue());
-				universidad.setNombre(rs.getString("nombre"));
-				universidad.setPaginaWeb(rs.getString("pagina_web"));
-				universidad.setPais(rs.getString("pais"));
-				universidad.setProvinciaEstado(rs.getString("provincia_estado"));
-				universidad.setFechaGuardado(rs.getDate("fecha_guardado"));
-				universidades.add(universidad);
-
-				i++;
-			}
-
-		} catch (Exception ex) {
-
-			ExcepcionModulo2 e = new ExcepcionModulo2();
-			e.setMensajePersonalizado("Ha surgido un error inesperado");
-			e.setMensajeError(ex.getMessage());
-			e.setMetodoError("leerUniversidades()");
-			throw e;
-		}
-
-		return universidades;
+	    return universidades;
 	}
+
 
 	/**
 	 * Muestra por consola las tablas de la base de datos

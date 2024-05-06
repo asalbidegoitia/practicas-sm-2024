@@ -212,7 +212,6 @@ function mostrarUniversidades() {
             actualizarTablaUniversidades(jsonResponse);
         } 
     }; 
-
     xhttp.open("GET", "obtenerUniversidades", true); 
     xhttp.send(); 
 }
