@@ -128,7 +128,7 @@
 		var searchString = document.getElementById("searchString").value; 
 		var countryName = document.getElementById("countryName").value; 
 
-		if(searchString != "" && searchString != null && countryName != "" && countryName != null) { 
+		if((searchString != "" && searchString != null) || (countryName != "" && countryName != null)) { 
 			var xhttp = new XMLHttpRequest(); 
 			xhttp.onreadystatechange = function() { 
 				if (this.readyState == 4 && this.status == 200) { 
