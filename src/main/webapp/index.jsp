@@ -211,7 +211,6 @@ function mostrarUniversidades() {
     xhttp.onreadystatechange = function() { 
         if (this.readyState == 4 && this.status == 200) { 
             var jsonResponse = JSON.parse(this.responseText); 
-            console.log(JSON.stringify(jsonResponse));
             actualizarTablaUniversidades(jsonResponse);
         } 
     }; 
@@ -284,7 +283,9 @@ function actualizarTablaUniversidades(universidades) {
         }
     }
 
+
     // Función para eliminar la universidad seleccionadaa
+
     function eliminarUniversidadSeleccionada() {
 	    if (uidSeleccionado !== null) {
 	        var filaSeleccionada = document.getElementById(uidSeleccionado);
@@ -298,6 +299,7 @@ function actualizarTablaUniversidades(universidades) {
 	                console.log("Universidad eliminada de la base de datos.");
 	            }
 	        };
+
 	        xhttp.open("POST", "eliminarUniversidad/" + uidSeleccionado, true);
 	        xhttp.send();
 	        
