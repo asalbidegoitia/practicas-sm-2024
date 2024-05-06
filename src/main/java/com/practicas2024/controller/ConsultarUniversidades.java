@@ -32,7 +32,7 @@ public class ConsultarUniversidades {
 	        }
 	    }
 	    
-	    @RequestMapping(value = "/eliminarUniversidad/{id}", method = RequestMethod.POST)
+	    @RequestMapping(value = "eliminarUniversidad/{id}", method = RequestMethod.POST)
 	    public String eliminarUniversidad(@PathVariable String id) {
 	        try {
 	        	AccesoBD bd = new AccesoBD();
