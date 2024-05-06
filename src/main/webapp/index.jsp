@@ -6,6 +6,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1"> 
 	<title>Colleges</title> 
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"> 
+	 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script> 
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script> 
 	<style type="text/css"> 
@@ -116,8 +117,8 @@
 </div> 
 <div class="profile-area" id="profile-area"> 
     <section> 
-        <table class="table">
-            <thead>
+        <table class="table table-striped table-bordered">
+            <thead class = "table-dark">
                 <tr>
                     <th>UID</th>
                     <th>Nombre</th>
@@ -129,6 +130,7 @@
             </thead>
             <tbody id="universitiesTableBody"></tbody>
         </table>
+         <button onclick="eliminarUniversidadSeleccionada()" class="btn btn-danger">Eliminar Universidad Seleccionada</button> <!-- Botón para eliminar universidad seleccionada -->
     </section> 
 </div>
 
@@ -224,6 +226,12 @@ function actualizarTablaUniversidades(universidades) {
     // Iterar sobre cada universidad y agregar una fila a la tabla
     universidades.forEach(function(universidad) {
         var row = document.createElement("tr");
+        row.id = universidad.uid; // Asignar el UID como ID de la fila
+
+        // Agregar el listener de eventos para seleccionar la fila al hacer clic
+        row.addEventListener("click", function() {
+            seleccionarFila(universidad.uid);
+        });
 
         var uidCell = document.createElement("td");
         uidCell.textContent = universidad.uid;
@@ -253,5 +261,50 @@ function actualizarTablaUniversidades(universidades) {
     });
 }
 
+
+</script>
+<script>
+    // Función para resaltar la fila seleccionada y almacenar su UID
+    function seleccionarFila(uid) {
+        // Obtener la fila seleccionada por su UID
+        var filaSeleccionada = document.getElementById(uid);
+
+        if (filaSeleccionada.classList.contains("filaSeleccionada")) {
+            filaSeleccionada.classList.remove("filaSeleccionada");
+            uidSeleccionado = null; // Restablecer el UID seleccionado
+        } else {
+
+            var filas = document.querySelectorAll("tbody tr");
+            filas.forEach(function(fila) {
+                fila.classList.remove("filaSeleccionada");
+            });
+            // Luego resaltar la fila actualmente seleccionada
+            filaSeleccionada.classList.add("filaSeleccionada");
+            uidSeleccionado = uid; // Almacenar el UID de la fila seleccionada
+        }
+    }
+
+    // Función para eliminar la universidad seleccionada
+    function eliminarUniversidadSeleccionada() {
+	    if (uidSeleccionado !== null) {
+	        var filaSeleccionada = document.getElementById(uidSeleccionado);
+	        filaSeleccionada.remove();
+	
+	        // Enviar una solicitud al servidor para eliminar la universidad seleccionada
+	        var xhttp = new XMLHttpRequest();
+	        xhttp.onreadystatechange = function() {
+	            if (this.readyState == 4 && this.status == 200) {
+	                // La universidad se eliminó correctamente
+	                console.log("Universidad eliminada de la base de datos.");
+	            }
+	        };
+	        xhttp.open("POST", "eliminarUniversidad/" + uidSeleccionado, true);
+	        xhttp.send();
+	        
+	        uidSeleccionado = null; // Restablecer el UID seleccionado
+	    } else {
+	        alert("Por favor, seleccione una universidad primero.");
+	    }
+	}
 </script>
 </html>
