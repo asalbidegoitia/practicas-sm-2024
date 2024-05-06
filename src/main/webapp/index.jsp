@@ -284,7 +284,7 @@ function actualizarTablaUniversidades(universidades) {
         }
     }
 
-    // Función para eliminar la universidad seleccionada
+    // Función para eliminar la universidad seleccionadaa
     function eliminarUniversidadSeleccionada() {
 	    if (uidSeleccionado !== null) {
 	        var filaSeleccionada = document.getElementById(uidSeleccionado);
