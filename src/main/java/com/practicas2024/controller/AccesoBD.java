@@ -81,6 +81,29 @@ public class AccesoBD {
 
 	    return universidades;
 	}
+	
+	public void eliminarUniversidad(String uid) throws ExcepcionModulo2 {
+	    try {
+	        // Convertir uid de String a int
+	        int id = Integer.parseInt(uid);
+
+	        Connection conn = DriverManager.getConnection("jdbc:mysql://" + HOST + ":" + PORT + "/" + DB_NAME + "?useSSL=true", USER, PASSWD);
+	        String sql = "DELETE FROM universidades WHERE uid = ?";
+	        PreparedStatement statement = conn.prepareStatement(sql);
+	        statement.setInt(1, id);
+	        int rowCount = statement.executeUpdate();
+	        statement.close();
+	        conn.close();
+	    } catch (NumberFormatException ex) {
+	        // Manejar el error si uid no es un entero válido
+	        ExcepcionModulo2 e = new ExcepcionModulo2("El ID proporcionado no es un número válido", ex.getMessage(), "Número inválido", "eliminarUniversidad()");
+	        throw e;
+	    } catch (SQLException ex) {
+	        // Manejar el error de SQL
+	        ExcepcionModulo2 e = new ExcepcionModulo2("", ex.getMessage(), String.valueOf(ex.getErrorCode()), "eliminarUniversidad()");
+	        throw e;
+	    }
+	}
 
 
 	/**
