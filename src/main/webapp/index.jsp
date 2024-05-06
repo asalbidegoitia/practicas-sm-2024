@@ -113,6 +113,23 @@
 		</div> 
 	</section> 
 </div> 
+<div class="profile-area" id="profile-area"> 
+    <section> 
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>UID</th>
+                    <th>Nombre</th>
+                    <th>Página Web</th>
+                    <th>País</th>
+                    <th>Provincia/Estado</th>
+                    <th>Fecha Guardado</th>
+                </tr>
+            </thead>
+            <tbody id="universitiesTableBody"></tbody>
+        </table>
+    </section> 
+</div>
 
 </body> 
 <script> 
@@ -185,4 +202,62 @@
 		} 
 	}
 </script> 
+<script> 
+function mostrarUniversidades() {
+    var xhttp = new XMLHttpRequest(); 
+    xhttp.onreadystatechange = function() { 
+        if (this.readyState == 4 && this.status == 200) { 
+            var jsonResponse = JSON.parse(this.responseText); 
+            console.log(JSON.stringify(jsonResponse));
+            actualizarTablaUniversidades(jsonResponse);
+        } 
+    }; 
+
+    xhttp.open("GET", "obtenerUniversidades", true); 
+    xhttp.send(); 
+}
+
+function actualizarTablaUniversidades(universidades) {
+    var tbody = document.getElementById("universitiesTableBody");
+    tbody.innerHTML = ""; // Limpiar el contenido actual de la tabla
+
+    // Iterar sobre cada universidad y agregar una fila a la tabla
+    universidades.forEach(function(universidad) {
+        var row = document.createElement("tr");
+
+        var uidCell = document.createElement("td");
+        uidCell.textContent = universidad.uid;
+        row.appendChild(uidCell);
+
+        var nombreCell = document.createElement("td");
+        nombreCell.textContent = universidad.nombre;
+        row.appendChild(nombreCell);
+
+        var paginaWebCell = document.createElement("td");
+        paginaWebCell.textContent = universidad.paginaWeb;
+        row.appendChild(paginaWebCell);
+
+        var paisCell = document.createElement("td");
+        paisCell.textContent = universidad.pais;
+        row.appendChild(paisCell);
+
+        var provinciaEstadoCell = document.createElement("td");
+        provinciaEstadoCell.textContent = universidad.provinciaEstado;
+        row.appendChild(provinciaEstadoCell);
+
+        var fechaGuardadoCell = document.createElement("td");
+        fechaGuardadoCell.textContent = universidad.fechaGuardado;
+        row.appendChild(fechaGuardadoCell);
+
+        tbody.appendChild(row);
+    });
+}
+
+</script>
+<script>
+    // Llamar a la función mostrarUniversidades al cargar la página
+    window.onload = function() {
+        mostrarUniversidades();
+    };
+</script>
 </html>
