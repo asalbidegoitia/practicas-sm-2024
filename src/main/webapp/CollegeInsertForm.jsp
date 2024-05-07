@@ -62,7 +62,7 @@
 
     <!-- Barra de Navegación -->
     <nav class="navbar navbar-expand-lg navbar-light bg-light" style= margin-left>
-        <a class="navbar-brand" href="index.jsp">Inicio</a>
+        <a class="navbar-brand" href="buscador.jsp">Inicio</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
@@ -74,7 +74,7 @@
                     <a class="nav-link" href="CollegeInsertForm.jsp">Introducir</a>
                 </li>
                 <li class="nav-item active">
-                    <a class="nav-link" href="index.jsp">Consultar</a>
+                    <a class="nav-link" href="buscador.jsp">Consultar</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link disabled" href="#">Disabled</a>

@@ -6,6 +6,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1"> 
 	<title>Colleges</title> 
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"> 
+	 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script> 
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script> 
 	<style type="text/css"> 
@@ -49,22 +50,37 @@
 		
 		/*
 			CSS personalizado
-			Ejercicio 02 (Hugo Vélez)
+			Ejercicio 02 (Hugo Vï¿½lez)
 		*/ 
 		.estiloDivError {
 			border: solid 1px red;
 			color: red;
 		}
-		/* CSS para el botón de logout */
-        .logout-button {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-        }
 	</style> 
 </head> 
 <body> 
- <button class="btn btn-danger logout-button" onclick="logout()">Logout</button>
+    <!-- Barra de Navegaciï¿½n -->
+    
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="buscador.jsp">Inicio</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+                <li class="nav-item active">
+                    <a class="nav-link" href="CollegeInsertForm.jsp">Introducir</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="buscador.jsp">Consultar</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link disabled" href="buscador.jsp">Disabled</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+	<button class="btn btn-danger logout-button" onclick="logout()">Logout</button>
 <div class="main-form" id="main-form"> 
 	<section> 
 		<div class="form-group"> 
@@ -76,6 +92,7 @@
 		<div class="form-group"> 
 			<button onclick="loadData()" class="btn btn-primary btn-block">Find College Details</button> 
 			<button onclick="saveCollege()" class="btn btn-primary btn-block">Find and Save College Details</button> 
+			<button onclick="mostrarUniversidades()" class="btn btn-primary btn-block">Mostrar Universidades</button>
 		</div> 
 
 		<a href="CollegeInsertForm.jsp">College Insert Form</a>
@@ -103,7 +120,7 @@
 
 <!-- 
 	Parrafo para mostrar errores  
-	Ejercicio 02 (Hugo Vélez)
+	Ejercicio 02 (Hugo Vï¿½lez)
 -->
 <div class="profile-area hideElement" id="profile-area-error"> 
 	<section class="estiloDivError"> 
@@ -120,21 +137,34 @@
 		</div> 
 	</section> 
 </div> 
+<div class="profile-area" id="profile-area"> 
+    <section> 
+        <table class="table table-striped table-bordered">
+            <thead class = "table-dark">
+                <tr>
+                    <th>UID</th>
+                    <th>Nombre</th>
+                    <th>Pï¿½gina Web</th>
+                    <th>Paï¿½s</th>
+                    <th>Provincia/Estado</th>
+                    <th>Fecha Guardado</th>
+                </tr>
+            </thead>
+            <tbody id="universitiesTableBody"></tbody>
+        </table>
+         <button onclick="eliminarUniversidadSeleccionada()" class="btn btn-danger">Eliminar Universidad Seleccionada</button> <!-- Botï¿½n para eliminar universidad seleccionada -->
+    </section> 
+</div>
 
 </body> 
 <script> 
-	//Función para realizar logout
-	function logout() {
-	    // Redireccionar a la página index.jsp
-	    window.location.href = "index.jsp";
-	}
 	function loadData() { 
 		document.getElementById("profile-area").classList.remove("hideElement"); 
 		document.getElementById("loader").classList.remove("hideElement"); 
 		document.getElementById("profile").classList.add("hideElement");
 		
 		// Ocultar div
-		// Ejercicio 02 (Hugo Vélez)
+		// Ejercicio 02 (Hugo Vï¿½lez)
 		document.getElementById("profile-area-error").classList.add("hideElement"); 
 
 		var searchString = document.getElementById("searchString").value; 
@@ -151,7 +181,7 @@
 					document.getElementById("profile").classList.remove("hideElement");
 					
 					// Mostrar errores
-					// Ejercicio 02 (Hugo Vélez)
+					// Ejercicio 02 (Hugo Vï¿½lez)
 					if(jsonResponse.parrafoErrores != null){
 						document.getElementById("profile-area-error").classList.remove("hideElement"); 
 						document.getElementById("mensajeerror").innerHTML = jsonResponse.parrafoErrores;
@@ -197,4 +227,114 @@
 		} 
 	}
 </script> 
+<script> 
+	//Funciï¿½n para realizar logout
+	function logout() {
+		// Redireccionar a la pï¿½gina index.jsp
+		window.location.href = "index.jsp";
+	}
+
+function mostrarUniversidades() {
+    var xhttp = new XMLHttpRequest(); 
+    xhttp.onreadystatechange = function() { 
+        if (this.readyState == 4 && this.status == 200) { 
+            var jsonResponse = JSON.parse(this.responseText); 
+            actualizarTablaUniversidades(jsonResponse);
+        } 
+    }; 
+    xhttp.open("GET", "obtenerUniversidades", true); 
+    xhttp.send(); 
+}
+
+function actualizarTablaUniversidades(universidades) {
+    var tbody = document.getElementById("universitiesTableBody");
+    tbody.innerHTML = ""; // Limpiar el contenido actual de la tabla
+
+    // Iterar sobre cada universidad y agregar una fila a la tabla
+    universidades.forEach(function(universidad) {
+        var row = document.createElement("tr");
+        row.id = universidad.uid; // Asignar el UID como ID de la fila
+
+        // Agregar el listener de eventos para seleccionar la fila al hacer clic
+        row.addEventListener("click", function() {
+            seleccionarFila(universidad.uid);
+        });
+
+        var uidCell = document.createElement("td");
+        uidCell.textContent = universidad.uid;
+        row.appendChild(uidCell);
+
+        var nombreCell = document.createElement("td");
+        nombreCell.textContent = universidad.nombre;
+        row.appendChild(nombreCell);
+
+        var paginaWebCell = document.createElement("td");
+        paginaWebCell.textContent = universidad.paginaWeb;
+        row.appendChild(paginaWebCell);
+
+        var paisCell = document.createElement("td");
+        paisCell.textContent = universidad.pais;
+        row.appendChild(paisCell);
+
+        var provinciaEstadoCell = document.createElement("td");
+        provinciaEstadoCell.textContent = universidad.provinciaEstado;
+        row.appendChild(provinciaEstadoCell);
+
+        var fechaGuardadoCell = document.createElement("td");
+        fechaGuardadoCell.textContent = universidad.fechaGuardado;
+        row.appendChild(fechaGuardadoCell);
+
+        tbody.appendChild(row);
+    });
+}
+
+
+</script>
+<script>
+    // Funciï¿½n para resaltar la fila seleccionada y almacenar su UID
+    function seleccionarFila(uid) {
+        // Obtener la fila seleccionada por su UID
+        var filaSeleccionada = document.getElementById(uid);
+
+        if (filaSeleccionada.classList.contains("filaSeleccionada")) {
+            filaSeleccionada.classList.remove("filaSeleccionada");
+            uidSeleccionado = null; // Restablecer el UID seleccionado
+        } else {
+
+            var filas = document.querySelectorAll("tbody tr");
+            filas.forEach(function(fila) {
+                fila.classList.remove("filaSeleccionada");
+            });
+            // Luego resaltar la fila actualmente seleccionada
+            filaSeleccionada.classList.add("filaSeleccionada");
+            uidSeleccionado = uid; // Almacenar el UID de la fila seleccionada
+        }
+    }
+
+
+    // Funciï¿½n para eliminar la universidad seleccionadaa
+
+    function eliminarUniversidadSeleccionada() {
+	    if (uidSeleccionado !== null) {
+	        var filaSeleccionada = document.getElementById(uidSeleccionado);
+	        filaSeleccionada.remove();
+	
+	        // Enviar una solicitud al servidor para eliminar la universidad seleccionada
+	        var xhttp = new XMLHttpRequest();
+	        xhttp.onreadystatechange = function() {
+	            if (this.readyState == 4 && this.status == 200) {
+	                // La universidad se eliminï¿½ correctamente
+	                console.log("Universidad eliminada de la base de datos.");
+	            }
+	        };
+
+	        xhttp.open("POST", "eliminarUniversidad/" + uidSeleccionado, true);
+	        xhttp.send();
+	        
+	        uidSeleccionado = null; // Restablecer el UID seleccionado
+	    } else {
+	        alert("Por favor, seleccione una universidad primero.");
+	    }
+	}
+</script>
 </html>
