@@ -6,6 +6,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1"> 
 	<title>Colleges</title> 
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"> 
+	 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script> 
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script> 
 	<style type="text/css"> 
@@ -45,39 +46,96 @@
 		} 
 		.hideElement { 
 			display: none; 
-		} 
+		}
+		
+		/*
+			CSS personalizado
+			Ejercicio 02 (Hugo Vélez)
+		*/ 
+		.estiloDivError {
+			border: solid 1px red;
+			color: red;
+		}
 	</style> 
 </head> 
 <body> 
-<div class="main-form" id="main-form"> 
-	<section> 
-		<div class="form-group"> 
-			<input id="collegeName" type="text" class="form-control" placeholder="Enter college name" required="required"> 
-		</div> 
-		<div class="form-group"> 
-			<input id="countryName" type="text" class="form-control" placeholder="Enter country name" required="required"> 
-		</div> 
-		<div class="form-group"> 
-			<input id="provinceName" type="text" class="form-control" placeholder="Enter province" required="required"> 
-		</div>
-		<div class="form-group"> 
-			<input id="webPage" type="text" class="form-control" placeholder="Enter college web page" required="required"> 
-		</div>
-		<div class="form-group"> 
-			<button onclick="insertCollege()" class="btn btn-primary btn-block">Add College</button> 
-		</div> 
-	</section> 
-</div> 
-<div class="profile-area hideElement" id="profile-area"> 
-	<section>  
-		<div id="profile" class="hideElement"> 
-			<br><br> 
-			<p><strong><span id="insertState"></span></strong></p> 
-			 
 
-		</div> 
-	</section> 
-</div> 
+    <!-- Barra de Navegación -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light" style= margin-left>
+        	<a class="navbar-brand" href="buscador.jsp">Inicio</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+            	<!-- Añadir un nav-item por cada apartado en la barra de navegecion 
+            	@params href pantalla a la que direcciona -->
+                <li class="nav-item">
+                    <a class="nav-link" href="CollegeInsertForm.jsp">Introducir</a>
+                </li>
+                <li class="nav-item active">
+                    <a class="nav-link" href="buscador.jsp">Consultar</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link disabled" href="#">Disabled</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    
+	<div class="main-form" id="main-form"> 
+		<section> 
+			<div class="form-group"> 
+				<input id="collegeName" type="text" class="form-control" placeholder="Enter college name" required="required"> 
+			</div> 
+			<div class="form-group"> 
+				<input id="countryName" type="text" class="form-control" placeholder="Enter country name" required="required"> 
+			</div> 
+			<div class="form-group"> 
+				<input id="provinceName" type="text" class="form-control" placeholder="Enter province" required="required"> 
+			</div>
+			<div class="form-group"> 
+				<input id="webPage" type="text" class="form-control" placeholder="Enter college web page" required="required"> 
+			</div>
+			<div class="form-group"> 
+				<button onclick="insertCollege()" class="btn btn-primary btn-block">Add College</button> 
+			</div> 
+		</section> 
+	</div> 
+	<div class="profile-area hideElement" id="profile-area"> 
+		<section> 
+			<div id="loader" class="hideElement"> 
+				<div class="spinner-border" role="status"> 
+					<span class="sr-only">Loading...</span> 
+				</div> 
+			</div> 
+			<div id="profile" class="hideElement"> 
+				<br><br> 
+				<p><strong><span id="insertState"></strong></span></p> 
+	
+			</div> 
+		</section> 
+	</div> 
+	
+	<!-- 
+		Parrafo para mostrar errores  
+		Ejercicio 02 (Hugo Vélez)
+	-->
+	<div class="profile-area hideElement" id="profile-area-error"> 
+		<section class="estiloDivError"> 
+			<div id="loader-error" class="hideElement"> 
+				<div class="spinner-border" role="status"> 
+					<span class="sr-only">Loading...</span> 
+				</div> 
+			</div> 
+			<div id="profile-error"> 
+				<br><br> 
+			
+				<p id="parrafoErrores"><strong>Error : </strong><span id="mensajeerror"></span></p> 
+	
+			</div> 
+		</section> 
+	</div> 
 </body> 
 <script> 
 	function insertCollege() { 
@@ -106,5 +164,5 @@
 			console.log("Enter country name and search string to check...") 
 		} 
 	}
-</script> 
+</script>
 </html>
