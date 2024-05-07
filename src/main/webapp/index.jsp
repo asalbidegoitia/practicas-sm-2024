@@ -56,6 +56,33 @@
 			border: solid 1px red;
 			color: red;
 		}
+		
+		.inputfile {
+			width: 0.1px;
+			height: 0.1px;
+			opacity: 0;
+			overflow: hidden;
+			position: absolute;
+			z-index: -1;
+		}
+		
+		.inputfile + label {
+		    font-size: 1.25em;
+		    font-weight: 700;
+		    color: black;
+			background: #f7f7f7; 
+		    width: 280px;
+		    margin-bottom: 10px; 
+		    padding: 10px;
+			border-radius: 2px; 
+		}
+		
+		.inputfile:focus + label,
+		.inputfile + label:hover {
+			color: white;
+		    background-color: #0069d9;
+			box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3); 
+		}
 	</style> 
 </head> 
 <body> 
@@ -95,6 +122,28 @@
 		</div> 
 	</section> 
 </div> 
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+
+<!-- Upload file (08) -->
+<div class="profile-area">
+	<section>
+		<form id="test_form" method="GET" action="">
+		  	<input type="file" name="file" id="file" class="inputfile" onchange="cambiarInput()"/>
+			<label id="labelfile" for="file">Choose a file</label>
+			
+		  	<button onclick="" class="btn btn-primary btn-block">Upload</button>
+		</form>
+	</section>
+</div>
+
+<script type="text/javascript">
+	function cambiarInput(){
+		var file = document.getElementById('file');
+		var labelFile = document.getElementById('labelfile');
+		labelfile.innerHTML= file.value;
+	}
+</script>
 
 <!-- 
 	Parrafo para mostrar errores  
