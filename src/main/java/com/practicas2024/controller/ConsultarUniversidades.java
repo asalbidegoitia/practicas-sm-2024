@@ -32,6 +32,8 @@ public class ConsultarUniversidades {
 	        }
 	    }
 	    
+	    //comentario para probar el revert de git 
+	    
 	    @RequestMapping(value = "eliminarUniversidad/id", method = RequestMethod.POST)
 	    public String eliminarUniversidad(@PathVariable String id) {
 	        try {
