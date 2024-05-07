@@ -50,7 +50,7 @@
 		
 		/*
 			CSS personalizado
-			Ejercicio 02 (Hugo Vélez)
+			Ejercicio 02 (Hugo Vï¿½lez)
 		*/ 
 		.estiloDivError {
 			border: solid 1px red;
@@ -59,30 +59,28 @@
 	</style> 
 </head> 
 <body> 
-
-    <!-- Barra de Navegación -->
-    <nav class="navbar navbar-expand-lg navbar-light bg-light" style= margin-left>
+    <!-- Barra de Navegaciï¿½n -->
+    
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <a class="navbar-brand" href="buscador.jsp">Inicio</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav">
-            	<!-- Añadir un nav-item por cada apartado en la barra de navegecion 
-            	@params href pantalla a la que direcciona -->
-                <li class="nav-item">
+                <li class="nav-item active">
                     <a class="nav-link" href="CollegeInsertForm.jsp">Introducir</a>
                 </li>
-                <li class="nav-item active">
+                <li class="nav-item">
                     <a class="nav-link" href="buscador.jsp">Consultar</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link disabled" href="#">Disabled</a>
+                    <a class="nav-link disabled" href="buscador.jsp">Disabled</a>
                 </li>
             </ul>
         </div>
     </nav>
-    
+	<button class="btn btn-danger logout-button" onclick="logout()">Logout</button>
 <div class="main-form" id="main-form"> 
 	<section> 
 		<div class="form-group"> 
@@ -122,7 +120,7 @@
 
 <!-- 
 	Parrafo para mostrar errores  
-	Ejercicio 02 (Hugo Vélez)
+	Ejercicio 02 (Hugo Vï¿½lez)
 -->
 <div class="profile-area hideElement" id="profile-area-error"> 
 	<section class="estiloDivError"> 
@@ -146,15 +144,15 @@
                 <tr>
                     <th>UID</th>
                     <th>Nombre</th>
-                    <th>Página Web</th>
-                    <th>País</th>
+                    <th>Pï¿½gina Web</th>
+                    <th>Paï¿½s</th>
                     <th>Provincia/Estado</th>
                     <th>Fecha Guardado</th>
                 </tr>
             </thead>
             <tbody id="universitiesTableBody"></tbody>
         </table>
-         <button onclick="eliminarUniversidadSeleccionada()" class="btn btn-danger">Eliminar Universidad Seleccionada</button> <!-- Botón para eliminar universidad seleccionada -->
+         <button onclick="eliminarUniversidadSeleccionada()" class="btn btn-danger">Eliminar Universidad Seleccionada</button> <!-- Botï¿½n para eliminar universidad seleccionada -->
     </section> 
 </div>
 
@@ -166,7 +164,7 @@
 		document.getElementById("profile").classList.add("hideElement");
 		
 		// Ocultar div
-		// Ejercicio 02 (Hugo Vélez)
+		// Ejercicio 02 (Hugo Vï¿½lez)
 		document.getElementById("profile-area-error").classList.add("hideElement"); 
 
 		var searchString = document.getElementById("searchString").value; 
@@ -183,7 +181,7 @@
 					document.getElementById("profile").classList.remove("hideElement");
 					
 					// Mostrar errores
-					// Ejercicio 02 (Hugo Vélez)
+					// Ejercicio 02 (Hugo Vï¿½lez)
 					if(jsonResponse.parrafoErrores != null){
 						document.getElementById("profile-area-error").classList.remove("hideElement"); 
 						document.getElementById("mensajeerror").innerHTML = jsonResponse.parrafoErrores;
@@ -230,12 +228,17 @@
 	}
 </script> 
 <script> 
+	//Funciï¿½n para realizar logout
+	function logout() {
+		// Redireccionar a la pï¿½gina index.jsp
+		window.location.href = "index.jsp";
+	}
+
 function mostrarUniversidades() {
     var xhttp = new XMLHttpRequest(); 
     xhttp.onreadystatechange = function() { 
         if (this.readyState == 4 && this.status == 200) { 
             var jsonResponse = JSON.parse(this.responseText); 
-            console.log(JSON.stringify(jsonResponse));
             actualizarTablaUniversidades(jsonResponse);
         } 
     }; 
@@ -288,7 +291,7 @@ function actualizarTablaUniversidades(universidades) {
 
 </script>
 <script>
-    // Función para resaltar la fila seleccionada y almacenar su UID
+    // Funciï¿½n para resaltar la fila seleccionada y almacenar su UID
     function seleccionarFila(uid) {
         // Obtener la fila seleccionada por su UID
         var filaSeleccionada = document.getElementById(uid);
@@ -308,7 +311,9 @@ function actualizarTablaUniversidades(universidades) {
         }
     }
 
-    // Función para eliminar la universidad seleccionada
+
+    // Funciï¿½n para eliminar la universidad seleccionadaa
+
     function eliminarUniversidadSeleccionada() {
 	    if (uidSeleccionado !== null) {
 	        var filaSeleccionada = document.getElementById(uidSeleccionado);
@@ -318,11 +323,12 @@ function actualizarTablaUniversidades(universidades) {
 	        var xhttp = new XMLHttpRequest();
 	        xhttp.onreadystatechange = function() {
 	            if (this.readyState == 4 && this.status == 200) {
-	                // La universidad se eliminó correctamente
+	                // La universidad se eliminï¿½ correctamente
 	                console.log("Universidad eliminada de la base de datos.");
 	            }
 	        };
-	        xhttp.open("POST", "eliminarUniversidad?id=" + uidSeleccionado, true); // Reemplaza "eliminarUniversidad" con la URL de tu endpoint
+
+	        xhttp.open("POST", "eliminarUniversidad/" + uidSeleccionado, true);
 	        xhttp.send();
 	        
 	        uidSeleccionado = null; // Restablecer el UID seleccionado
@@ -331,3 +337,4 @@ function actualizarTablaUniversidades(universidades) {
 	    }
 	}
 </script>
+</html>
