@@ -33,7 +33,7 @@ public class ConsultarUniversidades {
 	    }
 	    
 	    //comentario para eliminar el revert
-	    
+
 	    @RequestMapping(value = "eliminarUniversidad/id", method = RequestMethod.POST)
 	    public String eliminarUniversidad(@PathVariable String id) {
 	        try {
