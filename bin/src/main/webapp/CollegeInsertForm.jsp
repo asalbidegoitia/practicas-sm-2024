@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 <!DOCTYPE html> 
 <html lang="en"> 
 <head> 
@@ -60,27 +59,30 @@
 	</style> 
 </head> 
 <body> 
+
     <!-- Barra de Navegación -->
-    
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light" style= margin-left>
         <a class="navbar-brand" href="index.jsp">Inicio</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav">
-                <li class="nav-item active">
+            	<!-- Añadir un nav-item por cada apartado en la barra de navegecion 
+            	@params href pantalla a la que direcciona -->
+                <li class="nav-item">
                     <a class="nav-link" href="CollegeInsertForm.jsp">Introducir</a>
                 </li>
-                <li class="nav-item">
+                <li class="nav-item active">
                     <a class="nav-link" href="index.jsp">Consultar</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link disabled" href="index.jsp">Disabled</a>
+                    <a class="nav-link disabled" href="#">Disabled</a>
                 </li>
             </ul>
         </div>
     </nav>
+    
 <div class="main-form" id="main-form"> 
 	<section> 
 		<div class="form-group"> 
@@ -233,6 +235,7 @@ function mostrarUniversidades() {
     xhttp.onreadystatechange = function() { 
         if (this.readyState == 4 && this.status == 200) { 
             var jsonResponse = JSON.parse(this.responseText); 
+            console.log(JSON.stringify(jsonResponse));
             actualizarTablaUniversidades(jsonResponse);
         } 
     }; 
@@ -305,9 +308,7 @@ function actualizarTablaUniversidades(universidades) {
         }
     }
 
-
-    // Función para eliminar la universidad seleccionadaa
-
+    // Función para eliminar la universidad seleccionada
     function eliminarUniversidadSeleccionada() {
 	    if (uidSeleccionado !== null) {
 	        var filaSeleccionada = document.getElementById(uidSeleccionado);
@@ -321,8 +322,7 @@ function actualizarTablaUniversidades(universidades) {
 	                console.log("Universidad eliminada de la base de datos.");
 	            }
 	        };
-
-	        xhttp.open("POST", "eliminarUniversidad/" + uidSeleccionado, true);
+	        xhttp.open("POST", "eliminarUniversidad?id=" + uidSeleccionado, true); // Reemplaza "eliminarUniversidad" con la URL de tu endpoint
 	        xhttp.send();
 	        
 	        uidSeleccionado = null; // Restablecer el UID seleccionado
@@ -331,91 +331,3 @@ function actualizarTablaUniversidades(universidades) {
 	    }
 	}
 </script>
-=======
-<!DOCTYPE html> 
-<html lang="en"> 
-<head> 
-    <meta charset="utf-8"> 
-    <meta http-equiv="X-UA-Compatible" content="IE=edge"> 
-    <meta name="viewport" content="width=device-width, initial-scale=1"> 
-    <title>Login</title> 
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"> 
-    <style type="text/css"> 
-        .login-form { 
-            width: 340px; 
-            margin: 50px auto 0px; 
-        } 
-        .login-form section { 
-            margin-bottom: 15px; 
-            background: #f7f7f7; 
-            box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3); 
-            padding: 30px; 
-        } 
-        .login-form h3 { 
-            margin: 0 0 15px; 
-        } 
-        .form-control, .btn { 
-            min-height: 38px; 
-            border-radius: 2px; 
-        } 
-        .btn { 
-            font-size: 15px; 
-            font-weight: bold; 
-        } 
-    </style> 
-</head> 
-<body> 
-    <div class="login-form"> 
-        <section> 
-            <h3>Login</h3> 
-            <div class="form-group"> 
-                <input id="username" type="text" class="form-control" placeholder="Username" required="required"> 
-            </div> 
-            <div class="form-group"> 
-                <input id="password" type="password" class="form-control" placeholder="Password" required="required"> 
-            </div> 
-            <div class="form-group"> 
-                <button onclick="recogerusuarios()" class="btn btn-primary btn-block">Login</button> 
-            </div> 
-        </section> 
-    </div> 
-</body> 
-<script> 
-	function recogerusuarios(){
-	    var xhttp = new XMLHttpRequest();
-	    xhttp.open("GET", "obtenerUsuarios", true);
-	    xhttp.onreadystatechange = function () {
-	        if (this.readyState == 4 && this.status == 200) {
-	            var jsonResponse = JSON.parse(this.responseText);
-	            console.log(JSON.stringify(jsonResponse));
-	            login(jsonResponse);
-	        }
-	    };
-	    xhttp.send();
-	}
-	
-	function login(usuarios) { 
-	    var valido = false;
-	    var username = document.getElementById("username").value; 
-	    var password = document.getElementById("password").value; 
-	    
-	    // Iterar sobre cada usuario y comparar con los datos introducidos por el usuario
-	    usuarios.forEach(function (usuario) {
-	        if (usuario.login === username && usuario.password === password) {
-	            // Autenticación exitosa: redirigir al usuario a la página del buscador
-	            console.log("Autenticación exitosa");
-	            window.location.href = "buscador.jsp"; // Redirigir a la página del buscador
-	            valido = true; // Establecer la bandera de validación en true
-	            return; // Salir de la función después de la redirección
-	        }
-	    });
-	
-	    // Si el flujo de control llega aquí, significa que la autenticación falló
-	    if (!valido) {
-	        // Se manda un mensaje de error al usuario
-	        alert("Nombre de usuario o contraseña incorrectos");
-	    }
-	}
-</script> 
->>>>>>> P2024-010-Login
-</html>
