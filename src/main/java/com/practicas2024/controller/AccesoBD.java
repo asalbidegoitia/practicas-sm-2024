@@ -84,6 +84,12 @@ public class AccesoBD {
 	    return universidades;
 	}
 	
+	/**
+	 * Inserta un archivo a la base de datps
+	 * @param f Archivo a insertar
+	 * @return Registros afectados
+	 * @throws ExcepcionModulo2
+	 */
 	public int insertarArchivo(File f) throws ExcepcionModulo2 {
 		
 		int ra = 0;

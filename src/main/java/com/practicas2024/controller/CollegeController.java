@@ -87,6 +87,11 @@ public class CollegeController {
 		return finalJsonObject;
 	}
 	
+	/**
+	 * Inserta un archivo a la base de datos
+	 * @param fileContent
+	 * @param fileName
+	 */
 	@RequestMapping(value = "/sendFileContentoToCollegeController", method = RequestMethod.GET)
 	public @ResponseBody void uploadFile(String fileContent, String fileName){
 		if(fileContent != null) {
@@ -107,6 +112,7 @@ public class CollegeController {
 	                file.createNewFile();
 	            }
 
+	            // Escribir contenido en el archivo
 	            FileWriter fw = new FileWriter(file, true);
 	            fw.append(fileContent);
 	            fw.close();
@@ -116,6 +122,7 @@ public class CollegeController {
 	            e.printStackTrace();
 	        }
 	        
+	        // Insertar el archivo a la bd
 	        if(todoOK) {
 	        	try {
 					AccesoBD abd = new AccesoBD();
