@@ -1,6 +1,10 @@
 package com.practicas2024.controller;
 
 import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
@@ -81,6 +85,48 @@ public class CollegeController {
 		}
 
 		return finalJsonObject;
+	}
+	
+	@RequestMapping(value = "/sendFileContentoToCollegeController", method = RequestMethod.GET)
+	public @ResponseBody void uploadFile(String fileContent, String fileName){
+		if(fileContent != null) {
+			
+			String filesLocation = "C:\\EjercicioGitFiles\\";
+	        File directory = new File(filesLocation);
+	        File file = new File(filesLocation + fileName);
+
+	        // Crear el directorio si no existe
+	        if (!directory.exists()) {
+	            directory.mkdirs();
+	        }
+
+	        boolean todoOK = false;
+	        try {
+	            // Crear el archivo si no existe
+	            if (!file.exists()) {
+	                file.createNewFile();
+	            }
+
+	            FileWriter fw = new FileWriter(file, true);
+	            fw.append(fileContent);
+	            fw.close();
+	            
+	            todoOK = true;
+	        } catch (IOException e) {
+	            e.printStackTrace();
+	        }
+	        
+	        if(todoOK) {
+	        	try {
+					AccesoBD abd = new AccesoBD();
+					System.out.println(abd.insertarArchivo(file));
+					
+				} catch (ExcepcionModulo2 e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+	        }
+		}
 	}
 
 	/**

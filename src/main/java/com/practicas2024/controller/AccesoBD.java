@@ -1,5 +1,7 @@
 package com.practicas2024.controller;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -82,6 +84,32 @@ public class AccesoBD {
 	    return universidades;
 	}
 	
+	public int insertarArchivo(File f) throws ExcepcionModulo2 {
+		
+		int ra = 0;
+		try {
+			Connection conn = DriverManager.getConnection("jdbc:mysql://" + HOST + ":" + PORT + "/" + DB_NAME + "?useSSL=true", USER, PASSWD);
+	        String sql = "INSERT INTO archivos VALUES(null, ?)";
+	        PreparedStatement statement = conn.prepareStatement(sql);
+	        
+	        FileInputStream fis = new FileInputStream(f);
+	        statement.setBinaryStream(1, fis);
+	        ra = statement.executeUpdate();
+	        
+	        statement.close();
+	        conn.close();
+	        
+		}catch (Exception ex) {
+			
+			ExcepcionModulo2 e = new ExcepcionModulo2();
+			e.setMensajePersonalizado("Ha surgido un error inesperado");
+			e.setMensajeError(ex.getMessage());
+			e.setMetodoError("insertarArchivo()");
+			throw e;
+		}
+		
+		return ra;
+	}
 
 	/**
 	 * Elimina una universidad de la base de datos.

@@ -129,19 +129,62 @@
 <div class="profile-area">
 	<section>
 		<form id="test_form" method="GET" action="">
-		  	<input type="file" name="file" id="file" class="inputfile" onchange="cambiarInput()"/>
+		  	<input type="file" name="file" id="file" class="inputfile" onchange="changeInputText()"/>
 			<label id="labelfile" for="file">Choose a file</label>
 			
-		  	<button onclick="" class="btn btn-primary btn-block">Upload</button>
+		  	<button onclick="sendFileContentoToCollegeController()" class="btn btn-primary btn-block">Upload</button>
 		</form>
 	</section>
 </div>
 
 <script type="text/javascript">
-	function cambiarInput(){
+
+	// Cambia el label a nombre del archivo
+	function changeInputText() {
 		var file = document.getElementById('file');
 		var labelFile = document.getElementById('labelfile');
-		labelfile.innerHTML= file.value;
+		labelfile.innerHTML= file.files[0].name;
+	}
+	
+	function sendFileContentoToCollegeController() {
+		var fileInput = document.getElementById('file');
+		if(fileInput != null){
+			
+			var xhttp = new XMLHttpRequest();
+			xhttp.onreadystatechange = function() { 
+				if (this.readyState == 4 && this.status == 200) { 
+					var jsonResponse = JSON.parse(this.responseText); 
+				} 
+			}; 
+			
+			readFileContent(fileInput, function(error, contenido) {
+				var fileName = fileInput.files[0].name;
+				xhttp.open("GET", "sendFileContentoToCollegeController?fileContent=" + contenido + "&fileName=" + fileName, true); 
+				xhttp.send();
+			});
+		}
+	}
+	
+	function readFileContent(inputFile, callback) {
+		const file = inputFile.files[0];
+	    
+	    if (!file) {
+	        callback('No se ha seleccionado ningún archivo.');
+	        return;
+	    }
+
+	    const reader = new FileReader();
+
+	    reader.onload = function(event) {
+	        const contenido = event.target.result;
+	        callback(null, contenido);
+	    };
+
+	    reader.onerror = function() {
+	        callback('Ocurrió un error al leer el archivo.');
+	    };
+
+	    reader.readAsText(file, 'UTF-8'); // Lee el archivo como texto utilizando UTF-8
 	}
 </script>
 
